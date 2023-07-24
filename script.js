@@ -6,6 +6,10 @@ let myLibrary=[]
 let tableDiv=document.querySelector(".table")
 let addBook=document.querySelector(".add-btn")
 
+let isim=document.querySelector("#title")
+let yazar=document.querySelector("#author")
+let sayfa=document.querySelector("#pages")    
+let submitbtn=document.querySelector("#submit-btn")
 
 function Book(title, author, pages){
     this.title=title,
@@ -24,18 +28,28 @@ const book3 = new Book("eee","fff",333)
 addBookLibrary(book1)
 addBookLibrary(book2)
 addBookLibrary(book3)
-console.log(myLibrary);
+
 
 addBook.addEventListener("click", function(){
-    const book4= new Book("ggg","hhh",444)
-    addBookLibrary(book4)
+    const newBook= new Book(`${isim.value}`,`${yazar.value}`,`${sayfa.value}`)
+    addBookLibrary(newBook)
     tableDiv.innerHTML +=` 
             <tr>
-                <td> ${book4.title}</td>
-                <td> ${book4.author}</td>
-                <td> ${book4.pages}</td>
+                <td> ${newBook.title}</td>
+                <td> ${newBook.author}</td>
+                <td> ${newBook.pages}</td>
             </tr>`;
 })
+
+// submitbtn.addEventListener("click",function(){
+//     tableDiv.innerHTML +=` 
+//             <tr>
+//                 <td> ${}</td>
+//                 <td> ${book4.author}</td>
+//                 <td> ${book4.pages}</td>
+//             </tr>`;
+// })
+
 
 
 
