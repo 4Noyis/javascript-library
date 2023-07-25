@@ -2,60 +2,37 @@
 
 
 
-let myLibrary=[]
-let tableDiv=document.querySelector(".table")
-let addBook=document.querySelector(".add-btn")
-let cards=document.querySelector(".cards")
+const myLibrary=[]
+const tableDiv=document.querySelector(".table")
+const addBook=document.querySelector(".add-btn")
+const cards=document.querySelector(".cards")
 
+ 
+const title=document.querySelector("#title")
+const author=document.querySelector("#author")
+const pages=document.querySelector("#pages")    
+const read=document.getElementById("read")
+const submitBtn=document.querySelector(".submit-btn")
+const deleteBtn=document.querySelector(".delete-btn")
 
-let isim=document.querySelector("#title")
-let yazar=document.querySelector("#author")
-let sayfa=document.querySelector("#pages")    
-let submitbtn=document.querySelector(".submit-btn")
-
-
-function Book(title, author, pages){
+function Book(title, author, pages,read){
     this.title=title,
     this.author=author,
-    this.pages=pages
-
+    this.pages=pages,
+    this.read=read
 }
 
+Book.prototype.readed=function(){
+    this.read= !this.read
+}
+
+function readed(index){
+    myLibrary[index].readed()
+    render()
+}
 function addBookLibrary(book){
     myLibrary.push(book)
 }
-
-const book1= new Book("aaa","bbbb",111)
-const book2 = new Book("ccc","ddd",222)
-const book3 = new Book("eee","fff",333)
-addBookLibrary(book1)
-addBookLibrary(book2)
-addBookLibrary(book3)
-
-
-
-
-submitbtn.addEventListener("click",()=> formSubmit())
-
-function formSubmit(){
-    const newBook= new Book(`${isim.value}`,`${yazar.value}`,`${sayfa.value}` )
-    addBookLibrary(newBook)
-    cards.innerHTML +=`
-    <div class="card">
-    <h2 class="book-title">${newBook.title}</h2>
-    <p class="book-author">${newBook.author}</p>
-    <p class="book-pages">${newBook.pages}</p>
-    <button class="delete-btn">Delete</button>
-    </div>
-    `
-
-    for (let i = 0; i < myLibrary.length; i++) {
-        const element = myLibrary[i];
-        console.log(element);
-    }
-}
-
-addBook.addEventListener("click",()=> showForm())
 
 function showForm(){
     let form=document.getElementById("new-book")
@@ -66,19 +43,51 @@ function showForm(){
     }
 }
 
-
-
-for (let i = 0; i < myLibrary.length; i++) {
-    const element = myLibrary[i];
-    cards.innerHTML +=`
-    <div class="card">
-    <h2 class="book-title">${element.title}</h2>
-    <p class="book-author">${element.author}</p>
-    <p class="book-pages">${element.pages}</p>
-    <button class="delete-btn">Delete</button>
-    </div>`;
-
-    console.log(myLibrary[i]);
-    
+function removeBook(index) {
+    myLibrary.splice(index, 1);
+    render()
 }
+function formSubmit(){
+    if (!title.value || !author.value || !pages.value) {
+        alert("Please fill out all fields.");
+        return;
+    }
+    let book= new Book(`${title.value}`,`${author.value}`,`${pages.value}`, `${read.checked}` )
+    addBookLibrary(book)
+    console.log(book);
+    title.value=''
+    author.value=''
+    pages.value=''
+    read.checked=''
+    render()
+}
+function render(){
+    let libraryElement=document.getElementById("cards")
+    libraryElement.innerHTML=""
+    
+    for (let i = 0; i < myLibrary.length; i++) {
+        let newBook = myLibrary[i];
+        let bookElement=document.createElement("div");
+        bookElement.setAttribute("class","card")
+        bookElement.innerHTML=`
+      
+        <h2 class="book-title">${newBook.title}</h2>
+        <p class="book-author">${newBook.author}</p>
+        <p class="book-pages">${newBook.pages}</p>
+        <p class="read">${newBook.read ? "Readed": "Not Readed"}</p>
+        <div>
+        <button class="delete-btn" onClick="removeBook(${i})">Delete</button>
+        <button class="read-btn" onClick="readed(${i})">Readed</button>
+        </div>
+        
+        `
+        libraryElement.appendChild(bookElement)
+    }
+}
+
+addBook.addEventListener("click",()=> showForm())
+submitBtn.addEventListener("click",()=> formSubmit())
+
+
+
 

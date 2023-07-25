@@ -19,32 +19,34 @@
         <form class="book-form" action="#" onsubmit="event.preventDefault()">
           <div>
             <label for="title">Title:</label>
-            <input required id="title" type="text" />
+            <input  id="title" type="text" />
           </div>
           <div>
             <label for="author">Author:</label>
-            <input required id="author" type="text" />
+            <input  id="author" type="text" />
           </div>
           <div>
             <label for="pages">Pages:</label>
-            <input required type="number" name="pages" id="pages" />
+            <input  type="number" name="pages" id="pages" />
+          </div>
+          <div>
+            <label for="read">Read: </label>
+            <input type="checkbox" id="read">
           </div>
           <div>
             <button type="submit" class="submit-btn">submit</button>
           </div>
+
           
         </form>
         
       </div>
 
-      <div class="cards">
-        <div class="card">
-          <h2>title</h2>
-          <p>author</p>
-          <p>page</p>
-         <button class="delete-btn">Delete</button>
+        <div class="cards" id="cards">
+          
+
         </div>
-      </div>
+
       <div class="footer"></div>
 
     <script src="script.js"></script>
